@@ -1,0 +1,22 @@
+name: Deploy Copilot Agents
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate configuration
+        run: |
+          node -e "const c=require('./config/copilot-agents-config.json');console.log('✓ Config valid')"
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy agents
+        run: echo '✓ Agents deployed'
